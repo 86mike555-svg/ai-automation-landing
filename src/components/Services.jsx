@@ -51,15 +51,23 @@ const Services = () => {
   };
 
   return (
-    <section id="services" className="relative py-24 bg-transparent">
-      <div className="container relative">
+    <section id="services" className="relative overflow-hidden bg-black py-28">
+      {/* Top fade — плавный вход из предыдущего блока */}
+      <div className="pointer-events-none absolute top-0 left-0 right-0 h-40 bg-gradient-to-t from-transparent to-black" />
+
+      {/* Background glow */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute left-1/2 top-[-180px] h-[520px] w-[520px] -translate-x-1/2 rounded-full bg-primary/10 blur-[160px]" />
+      </div>
+
+      <div className="container relative z-10">
         <SectionHeader
           label="Услуги"
           title="Чем я занимаюсь"
           description="Внедряю ИИ-решения под задачи и бюджет малого бизнеса"
         />
 
-        <div className="grid md:grid-cols-2 gap-10 max-w-5xl mx-auto">
+        <div className="mx-auto mt-16 grid max-w-5xl gap-10 md:grid-cols-2">
           {services.map((service) => (
             <div
               key={service.title}
@@ -68,31 +76,34 @@ const Services = () => {
               onMouseLeave={resetGlow}
               className="
                 service-card
-                card-edge-glow
+                group
                 relative
                 cursor-pointer
-                p-10
                 rounded-3xl
-                bg-white/5
-                backdrop-blur-xl
                 border border-white/10
-                transition-all duration-300
+                bg-white/5
+                p-10
+                backdrop-blur-xl
+                transition-all
+                duration-300
                 hover:-translate-y-2
                 hover:border-primary/40
+                hover:shadow-[0_30px_90px_rgba(120,255,0,0.18)]
               "
             >
+              {/* Interactive glow */}
               <div className="pointer-events-none absolute inset-0 rounded-3xl glow-layer" />
 
               <div className="relative z-10">
-                <div className="w-14 h-14 rounded-xl bg-primary/20 flex items-center justify-center mb-6">
-                  <service.icon className="w-7 h-7 text-primary" />
+                <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-xl bg-primary/20 shadow-[0_0_0_1px_rgba(120,255,0,0.25),0_14px_50px_rgba(120,255,0,0.25)]">
+                  <service.icon className="h-7 w-7 text-primary" />
                 </div>
 
-                <h3 className="text-2xl font-semibold text-white mb-3">
+                <h3 className="mb-3 text-2xl font-semibold text-white">
                   {service.title}
                 </h3>
 
-                <p className="text-white/70 text-lg leading-relaxed">
+                <p className="text-lg leading-relaxed text-white/70">
                   {service.description}
                 </p>
               </div>
@@ -100,6 +111,9 @@ const Services = () => {
           ))}
         </div>
       </div>
+
+      {/* Bottom fade — подготовка к следующему блоку */}
+      <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-b from-transparent to-black" />
 
       <style>{`
         .glow-layer {

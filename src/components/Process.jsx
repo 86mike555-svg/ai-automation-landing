@@ -24,40 +24,69 @@ const steps = [
 
 const Process = () => {
   return (
-    <section id="process" className="relative py-28 bg-transparent">
-      <div className="container relative">
+    <section id="process" className="relative overflow-hidden bg-black py-28">
+      {/* Top fade */}
+      <div className="pointer-events-none absolute top-0 left-0 right-0 h-40 bg-gradient-to-t from-transparent to-black" />
+
+      {/* Background glow */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute left-1/2 top-[-180px] h-[520px] w-[520px] -translate-x-1/2 rounded-full bg-primary/10 blur-[160px]" />
+      </div>
+
+      <div className="container relative z-10">
         <SectionHeader
           label="Как проходит работа"
           title="Этапы внедрения"
           description="Простой и прозрачный процесс без лишних шагов"
         />
 
-        <div className="grid md:grid-cols-3 gap-10 max-w-6xl mx-auto">
+        <div className="mx-auto mt-16 grid max-w-6xl gap-10 md:grid-cols-3">
           {steps.map((step, index) => (
             <div
               key={step.title}
-              className="group p-8 rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 transition-all duration-500 hover:-translate-y-2 hover:border-primary/40 hover:shadow-[0_25px_70px_rgba(120,255,0,0.15)] animate-fade-up"
+              className="
+                group
+                relative
+                rounded-3xl
+                border border-white/10
+                bg-white/5
+                p-8
+                backdrop-blur-xl
+                transition-all
+                duration-500
+                hover:-translate-y-2
+                hover:border-primary/40
+                hover:shadow-[0_30px_90px_rgba(120,255,0,0.18)]
+                animate-fade-up
+              "
               style={{ animationDelay: `${index * 0.15}s` }}
             >
-              <div className="absolute top-6 right-6 text-sm font-mono text-white/30">
+              {/* Step number */}
+              <div className="absolute right-6 top-6 text-sm font-mono text-white/30">
                 0{index + 1}
               </div>
 
-              <div className="w-14 h-14 rounded-xl bg-primary/20 flex items-center justify-center mb-6 group-hover:scale-110 transition">
-                <step.icon className="w-7 h-7 text-primary" />
+              {/* Icon */}
+              <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-xl bg-primary/20 shadow-[0_0_0_1px_rgba(120,255,0,0.25),0_14px_50px_rgba(120,255,0,0.25)] transition group-hover:scale-110">
+                <step.icon className="h-7 w-7 text-primary" />
               </div>
 
-              <h3 className="text-xl font-semibold text-white mb-3">
+              {/* Title */}
+              <h3 className="mb-3 text-xl font-semibold text-white">
                 {step.title}
               </h3>
 
-              <p className="text-lg text-white/70 leading-relaxed">
+              {/* Description */}
+              <p className="text-lg leading-relaxed text-white/70">
                 {step.description}
               </p>
             </div>
           ))}
         </div>
       </div>
+
+      {/* Bottom fade */}
+      <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-b from-transparent to-black" />
     </section>
   );
 };

@@ -32,38 +32,61 @@ const ContactForm = () => {
   return (
     <section
       id="contact"
-      className="relative py-28 bg-transparent overflow-hidden"
+      className="relative overflow-hidden bg-black py-32"
     >
-      {/* 🌿 АСИММЕТРИЧНОЕ EDGE-СВЕЧЕНИЕ */}
+      {/* 🌿 МЯГКИЕ НЕРАВНОМЕРНЫЕ СВЕЧЕНИЯ */}
       <div className="pointer-events-none absolute inset-0">
-        {/* левый — выше */}
-        <div className="
-          absolute
-          left-[-220px]
-          top-[30%]
-          w-[520px]
-          h-[520px]
-          bg-[radial-gradient(circle,rgba(120,255,0,0.12),transparent_72%)]
-        " />
+        {/* левый верх — главный акцент */}
+        <div
+          className="
+            absolute
+            left-[-240px]
+            top-[8%]
+            h-[620px]
+            w-[620px]
+            rounded-full
+            bg-[radial-gradient(circle,rgba(120,255,0,0.22),transparent_68%)]
+            blur-[130px]
+          "
+        />
 
-        {/* правый — ниже */}
-        <div className="
-          absolute
-          right-[-220px]
-          top-[65%]
-          w-[520px]
-          h-[520px]
-          bg-[radial-gradient(circle,rgba(120,255,0,0.10),transparent_72%)]
-        " />
+        {/* правый центр — поддержка */}
+        <div
+          className="
+            absolute
+            right-[-220px]
+            top-[48%]
+            h-[540px]
+            w-[540px]
+            rounded-full
+            bg-[radial-gradient(circle,rgba(120,255,0,0.18),transparent_70%)]
+            blur-[150px]
+          "
+        />
+
+        {/* нижний центр — мягкий под форму */}
+        <div
+          className="
+            absolute
+            left-1/2
+            bottom-[-280px]
+            h-[760px]
+            w-[760px]
+            -translate-x-1/2
+            rounded-full
+            bg-[radial-gradient(circle,rgba(120,255,0,0.14),transparent_72%)]
+            blur-[180px]
+          "
+        />
       </div>
 
-      <div className="container relative">
-        <div className="max-w-md mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-semibold text-white mb-6">
+      <div className="container relative z-10">
+        <div className="mx-auto max-w-md text-center">
+          <h2 className="mb-6 text-4xl md:text-5xl font-semibold text-white">
             Бесплатный разбор бизнеса
           </h2>
 
-          <p className="text-lg text-white/70 mb-10 leading-relaxed">
+          <p className="mb-12 text-lg leading-relaxed text-white/70">
             Покажу, где вы теряете заявки и как ИИ может это исправить
           </p>
 
@@ -74,10 +97,10 @@ const ContactForm = () => {
               space-y-5
               rounded-3xl
               p-8
-              bg-white/5
+              bg-white/6
               backdrop-blur-xl
-              border border-white/10
-              shadow-[0_0_0_1px_rgba(120,255,0,0.07),0_30px_90px_rgba(0,0,0,0.45)]
+              border border-white/12
+              shadow-[0_0_0_1px_rgba(120,255,0,0.08),0_45px_130px_rgba(0,0,0,0.55)]
             "
           >
             <input
@@ -85,50 +108,50 @@ const ContactForm = () => {
               name="phone"
               placeholder="Телефон *"
               required
-              className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-white/40 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/25"
+              className="w-full rounded-xl bg-black/45 px-4 py-3 text-white placeholder:text-white/40 border border-white/10 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/25"
             />
 
             <input
               type="text"
               name="telegram"
               placeholder="Telegram (необязательно)"
-              className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-white/40 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/25"
+              className="w-full rounded-xl bg-black/45 px-4 py-3 text-white placeholder:text-white/40 border border-white/10 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/25"
             />
 
             <input
               type="email"
               name="email"
               placeholder="Email (необязательно)"
-              className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-white/40 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/25"
+              className="w-full rounded-xl bg-black/45 px-4 py-3 text-white placeholder:text-white/40 border border-white/10 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/25"
             />
 
             <input
               type="text"
               name="vk"
               placeholder="VK (необязательно)"
-              className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-white/40 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/25"
+              className="w-full rounded-xl bg-black/45 px-4 py-3 text-white placeholder:text-white/40 border border-white/10 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/25"
             />
 
             <button
               type="submit"
               className="
                 w-full
-                py-4
                 rounded-xl
                 bg-primary
-                text-black
+                py-4
                 font-medium
+                text-black
                 transition-all duration-300
                 hover:scale-[1.03]
-                hover:shadow-[0_20px_70px_rgba(120,255,0,0.45)]
+                hover:shadow-[0_25px_90px_rgba(120,255,0,0.5)]
                 active:scale-[0.98]
               "
             >
               Получить разбор
             </button>
 
-            <p className="text-sm text-white/50 mt-2">
-              Ответ вам придет в ближайшее время
+            <p className="mt-2 text-sm text-white/50">
+              Ответ вам придёт в ближайшее время
             </p>
           </form>
         </div>
