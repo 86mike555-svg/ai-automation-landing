@@ -7,25 +7,25 @@ const services = [
     icon: Bot,
     title: "ИИ-ассистенты и чат-боты",
     description:
-      "Автоматическое общение с клиентами 24/7: ответы, заказы, консультации",
+      "Отвечают клиентам 24/7, принимают заявки и снимают нагрузку с менеджеров уже с первого дня",
   },
   {
     icon: Zap,
     title: "Автоматизация продаж",
     description:
-      "Обработка заявок, квалификация лидов, рассылки и напоминания",
+      "Заявки обрабатываются быстрее, лиды квалифицируются автоматически, а клиенты не теряются",
   },
   {
     icon: BarChart3,
-    title: "Анализ данных",
+    title: "Понимание данных, а не цифр",
     description:
-      "Отчёты и прогнозы для принятия решений, а не просто цифры",
+      "Показываю, откуда приходят заявки, где они теряются и что реально влияет на продажи",
   },
   {
     icon: Settings,
     title: "Оптимизация процессов",
     description:
-      "Убираем рутину и освобождаем время команды",
+      "Убираем ручную рутину и хаос в коммуникациях, освобождая время команды и владельца",
   },
 ];
 
@@ -35,25 +35,46 @@ const Services = () => {
   const handleMove = (e) => {
     const card = e.currentTarget;
     const rect = card.getBoundingClientRect();
-
-    const x =
-      (e.clientX ?? e.touches?.[0].clientX) - rect.left;
-    const y =
-      (e.clientY ?? e.touches?.[0].clientY) - rect.top;
-
+    const x = (e.clientX ?? e.touches?.[0].clientX) - rect.left;
+    const y = (e.clientY ?? e.touches?.[0].clientY) - rect.top;
     card.style.setProperty("--x", `${x}px`);
     card.style.setProperty("--y", `${y}px`);
   };
 
   const resetGlow = (e) => {
-    e.currentTarget.style.setProperty("--x", `50%`);
-    e.currentTarget.style.setProperty("--y", `50%`);
+    e.currentTarget.style.setProperty("--x", "50%");
+    e.currentTarget.style.setProperty("--y", "50%");
   };
 
   return (
-    <section id="services" className="relative overflow-hidden bg-black py-28">
-      {/* Top fade — плавный вход из предыдущего блока */}
-      <div className="pointer-events-none absolute top-0 left-0 right-0 h-40 bg-gradient-to-t from-transparent to-black" />
+    <section
+      id="services"
+      className="relative overflow-hidden bg-black py-28"
+    >
+      {/* ===== Diagonal lines (Services) ===== */}
+      <div className="pointer-events-none absolute inset-0 opacity-15">
+        <svg width="100%" height="100%" viewBox="0 0 400 400">
+          <defs>
+            <pattern
+              id="servicesLines"
+              width="56"
+              height="56"
+              patternUnits="userSpaceOnUse"
+              patternTransform="rotate(45)"
+            >
+              <line
+                x1="0"
+                y1="0"
+                x2="0"
+                y2="56"
+                stroke="rgba(120,255,0,0.10)"
+                strokeWidth="1"
+              />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#servicesLines)" />
+        </svg>
+      </div>
 
       {/* Background glow */}
       <div className="pointer-events-none absolute inset-0">
@@ -63,8 +84,8 @@ const Services = () => {
       <div className="container relative z-10">
         <SectionHeader
           label="Услуги"
-          title="Чем я занимаюсь"
-          description="Внедряю ИИ-решения под задачи и бюджет малого бизнеса"
+          title="Что вы получаете в итоге"
+          description="Не просто технологии — а конкретный результат для бизнеса"
         />
 
         <div className="mx-auto mt-16 grid max-w-5xl gap-10 md:grid-cols-2">
@@ -76,6 +97,9 @@ const Services = () => {
               onMouseLeave={resetGlow}
               className="
                 service-card
+                animate-card
+                card-with-glow
+                card-edge-glow
                 group
                 relative
                 cursor-pointer
@@ -91,11 +115,10 @@ const Services = () => {
                 hover:shadow-[0_30px_90px_rgba(120,255,0,0.18)]
               "
             >
-              {/* Interactive glow */}
-              <div className="pointer-events-none absolute inset-0 rounded-3xl glow-layer" />
+              <div className="glow-layer" />
 
               <div className="relative z-10">
-                <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-xl bg-primary/20 shadow-[0_0_0_1px_rgba(120,255,0,0.25),0_14px_50px_rgba(120,255,0,0.25)]">
+                <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-xl bg-primary/20 shadow-[0_14px_50px_rgba(120,255,0,0.25)]">
                   <service.icon className="h-7 w-7 text-primary" />
                 </div>
 
@@ -111,31 +134,6 @@ const Services = () => {
           ))}
         </div>
       </div>
-
-      {/* Bottom fade — подготовка к следующему блоку */}
-      <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-b from-transparent to-black" />
-
-      <style>{`
-        .glow-layer {
-          background: radial-gradient(
-            300px circle at var(--x, 50%) var(--y, 50%),
-            rgba(120,255,0,0.22),
-            transparent 70%
-          );
-          opacity: 0;
-          transition: opacity 0.2s ease;
-        }
-
-        .service-card:hover .glow-layer {
-          opacity: 1;
-        }
-
-        @media (hover: none) {
-          .glow-layer {
-            opacity: 1;
-          }
-        }
-      `}</style>
     </section>
   );
 };

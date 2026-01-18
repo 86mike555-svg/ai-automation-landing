@@ -5,6 +5,7 @@ import {
   TrendingDown,
 } from "lucide-react";
 import SectionHeader from "./SectionHeader";
+import { useCardsAnimation } from "../hooks/useCardsAnimation";
 
 const pains = [
   {
@@ -26,27 +27,80 @@ const pains = [
 ];
 
 const PainPoints = () => {
+  useCardsAnimation(".pain-card");
+
+  const handleMove = (e) => {
+    const card = e.currentTarget;
+    const rect = card.getBoundingClientRect();
+
+    const x =
+      (e.clientX ?? e.touches?.[0].clientX) - rect.left;
+    const y =
+      (e.clientY ?? e.touches?.[0].clientY) - rect.top;
+
+    card.style.setProperty("--x", `${x}px`);
+    card.style.setProperty("--y", `${y}px`);
+  };
+
+  const resetGlow = (e) => {
+    e.currentTarget.style.setProperty("--x", "50%");
+    e.currentTarget.style.setProperty("--y", "50%");
+  };
+
   return (
     <section className="relative overflow-hidden bg-black py-28">
-      {/* Top background glow */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-1/2 top-[-200px] h-[520px] w-[520px] -translate-x-1/2 rounded-full bg-primary/10 blur-[160px]" />
+      {/* ===== Diagonal lines background (как в Hero) ===== */}
+      <div className="pointer-events-none absolute inset-0 opacity-20">
+        <svg
+          width="100%"
+          height="100%"
+          viewBox="0 0 400 400"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <defs>
+            <pattern
+              id="painLines"
+              width="48"
+              height="48"
+              patternUnits="userSpaceOnUse"
+              patternTransform="rotate(45)"
+            >
+              <line
+                x1="0"
+                y1="0"
+                x2="0"
+                y2="48"
+                stroke="rgba(120,255,0,0.10)"
+                strokeWidth="1"
+              />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#painLines)" />
+        </svg>
       </div>
 
       <div className="container relative z-10">
         <SectionHeader
           label="Проблемы"
           title="Что мешает бизнесу расти"
-          description="Типичные точки потери клиентов и денег — с которыми сталкивается большинство компаний"
+          description="Типичные точки потери клиентов и денег"
         />
 
         <div className="mx-auto mt-16 grid max-w-6xl gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {pains.map((item, index) => (
             <div
               key={index}
+              onMouseMove={handleMove}
+              onTouchMove={handleMove}
+              onMouseLeave={resetGlow}
               className="
+                pain-card
+                animate-card
+                card-with-glow
+                card-edge-glow
                 group
                 relative
+                cursor-pointer
                 rounded-3xl
                 border border-white/10
                 bg-white/5
@@ -56,30 +110,24 @@ const PainPoints = () => {
                 duration-300
                 hover:-translate-y-2
                 hover:border-primary/40
-                hover:shadow-[0_30px_90px_rgba(120,255,0,0.18)]
               "
             >
-              {/* Hover glow */}
-              <div className="pointer-events-none absolute inset-0 rounded-3xl opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                <div className="absolute inset-0 rounded-3xl bg-primary/5 blur-xl" />
-              </div>
+              {/* Interactive glow */}
+              <div className="glow-layer" />
 
-              {/* Icon */}
-              <div className="relative z-10 mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/20 shadow-[0_0_0_1px_rgba(120,255,0,0.25),0_14px_50px_rgba(120,255,0,0.25)]">
-                <item.icon className="h-8 w-8 text-primary" />
-              </div>
+              <div className="relative z-10">
+                <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-xl bg-primary/20 shadow-[0_10px_40px_rgba(120,255,0,0.25)]">
+                  <item.icon className="h-7 w-7 text-primary" />
+                </div>
 
-              {/* Text */}
-              <p className="relative z-10 text-base leading-relaxed text-white/80">
-                {item.text}
-              </p>
+                <p className="text-white/80 leading-relaxed">
+                  {item.text}
+                </p>
+              </div>
             </div>
           ))}
         </div>
       </div>
-
-      {/* Bottom fade — убирает резкую границу со следующим блоком */}
-      <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-b from-transparent to-black" />
     </section>
   );
 };

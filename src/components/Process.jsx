@@ -1,36 +1,70 @@
 import { Search, Settings, Rocket } from "lucide-react";
 import SectionHeader from "./SectionHeader";
+import { useCardsAnimation } from "../hooks/useCardsAnimation";
 
 const steps = [
   {
     icon: Search,
     title: "Разбор задачи",
     description:
-      "Созваниваемся и разбираем бизнес, чтобы понять, где ИИ даст максимальный эффект",
+      "Понимаем, где автоматизация даст максимальный эффект",
   },
   {
     icon: Settings,
     title: "Внедрение решения",
     description:
-      "Настраиваю ИИ, автоматизацию и интеграции под ваши процессы",
+      "Настраиваю ИИ и интеграции под реальные процессы бизнеса",
   },
   {
     icon: Rocket,
     title: "Запуск и рост",
     description:
-      "Тестируем, оптимизируем и масштабируем решение вместе с бизнесом",
+      "Тестируем, оптимизируем и масштабируем решение",
   },
 ];
 
 const Process = () => {
-  return (
-    <section id="process" className="relative overflow-hidden bg-black py-28">
-      {/* Top fade */}
-      <div className="pointer-events-none absolute top-0 left-0 right-0 h-40 bg-gradient-to-t from-transparent to-black" />
+  useCardsAnimation(".process-card");
 
-      {/* Background glow */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-1/2 top-[-180px] h-[520px] w-[520px] -translate-x-1/2 rounded-full bg-primary/10 blur-[160px]" />
+  const handleMove = (e) => {
+    const card = e.currentTarget;
+    const rect = card.getBoundingClientRect();
+    const x = (e.clientX ?? e.touches?.[0].clientX) - rect.left;
+    const y = (e.clientY ?? e.touches?.[0].clientY) - rect.top;
+    card.style.setProperty("--x", `${x}px`);
+    card.style.setProperty("--y", `${y}px`);
+  };
+
+  const resetGlow = (e) => {
+    e.currentTarget.style.setProperty("--x", "50%");
+    e.currentTarget.style.setProperty("--y", "50%");
+  };
+
+  return (
+    <section className="relative overflow-hidden bg-black py-28">
+      {/* ===== Soft diagonal lines (Process) ===== */}
+      <div className="pointer-events-none absolute inset-0 opacity-10">
+        <svg width="100%" height="100%" viewBox="0 0 400 400">
+          <defs>
+            <pattern
+              id="processLines"
+              width="64"
+              height="64"
+              patternUnits="userSpaceOnUse"
+              patternTransform="rotate(45)"
+            >
+              <line
+                x1="0"
+                y1="0"
+                x2="0"
+                y2="64"
+                stroke="rgba(120,255,0,0.08)"
+                strokeWidth="1"
+              />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#processLines)" />
+        </svg>
       </div>
 
       <div className="container relative z-10">
@@ -43,50 +77,47 @@ const Process = () => {
         <div className="mx-auto mt-16 grid max-w-6xl gap-10 md:grid-cols-3">
           {steps.map((step, index) => (
             <div
-              key={step.title}
+              key={index}
+              onMouseMove={handleMove}
+              onTouchMove={handleMove}
+              onMouseLeave={resetGlow}
               className="
+                process-card
+                animate-card
+                card-with-glow
+                card-edge-glow
                 group
                 relative
+                cursor-pointer
                 rounded-3xl
                 border border-white/10
                 bg-white/5
                 p-8
                 backdrop-blur-xl
                 transition-all
-                duration-500
+                duration-300
                 hover:-translate-y-2
-                hover:border-primary/40
-                hover:shadow-[0_30px_90px_rgba(120,255,0,0.18)]
-                animate-fade-up
               "
-              style={{ animationDelay: `${index * 0.15}s` }}
             >
-              {/* Step number */}
-              <div className="absolute right-6 top-6 text-sm font-mono text-white/30">
-                0{index + 1}
+              <div className="glow-layer" />
+
+              <div className="relative z-10">
+                <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-xl bg-primary/20 shadow-[0_10px_40px_rgba(120,255,0,0.25)]">
+                  <step.icon className="h-7 w-7 text-primary" />
+                </div>
+
+                <h3 className="mb-2 text-xl font-semibold text-white">
+                  {step.title}
+                </h3>
+
+                <p className="text-white/70 leading-relaxed">
+                  {step.description}
+                </p>
               </div>
-
-              {/* Icon */}
-              <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-xl bg-primary/20 shadow-[0_0_0_1px_rgba(120,255,0,0.25),0_14px_50px_rgba(120,255,0,0.25)] transition group-hover:scale-110">
-                <step.icon className="h-7 w-7 text-primary" />
-              </div>
-
-              {/* Title */}
-              <h3 className="mb-3 text-xl font-semibold text-white">
-                {step.title}
-              </h3>
-
-              {/* Description */}
-              <p className="text-lg leading-relaxed text-white/70">
-                {step.description}
-              </p>
             </div>
           ))}
         </div>
       </div>
-
-      {/* Bottom fade */}
-      <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-b from-transparent to-black" />
     </section>
   );
 };

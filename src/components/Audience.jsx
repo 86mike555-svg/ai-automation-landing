@@ -1,5 +1,6 @@
 import { Store, Globe, Wrench, Building2 } from "lucide-react";
 import SectionHeader from "./SectionHeader";
+import { useCardsAnimation } from "../hooks/useCardsAnimation";
 
 const segments = [
   {
@@ -12,47 +13,66 @@ const segments = [
     icon: Globe,
     title: "Онлайн-проекты",
     description:
-      "Интернет-магазины, онлайн-школы, digital-агентства, стартапы",
+      "Онлайн-школы, стартапы и агентства с потоком заявок",
   },
   {
     icon: Wrench,
     title: "Сервисы и услуги",
     description:
-      "Салоны, клиники, автосервисы, юридические и бухгалтерские услуги",
+      "Клиники, салоны, автосервисы и другие локальные бизнесы",
   },
   {
     icon: Store,
     title: "Без IT-отдела",
     description:
-      "Бизнес, которому нужны технологии без найма программистов",
+      "Бизнесу, которому нужны технологии без найма программистов",
   },
 ];
 
 const Audience = () => {
-  return (
-    <section id="audience" className="relative overflow-hidden bg-black py-28">
-      {/* Top background fade — плавный переход от прошлого блока */}
-      <div className="pointer-events-none absolute top-0 left-0 right-0 h-40 bg-gradient-to-t from-transparent to-black" />
+  useCardsAnimation(".audience-card");
 
-      {/* Background glow */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute right-1/2 top-[-160px] h-[480px] w-[480px] translate-x-1/2 rounded-full bg-primary/10 blur-[160px]" />
-      </div>
+  const handleMove = (e) => {
+    const card = e.currentTarget;
+    const rect = card.getBoundingClientRect();
+    const x = (e.clientX ?? e.touches?.[0].clientX) - rect.left;
+    const y = (e.clientY ?? e.touches?.[0].clientY) - rect.top;
+    card.style.setProperty("--x", `${x}px`);
+    card.style.setProperty("--y", `${y}px`);
+  };
+
+  const resetGlow = (e) => {
+    e.currentTarget.style.setProperty("--x", "50%");
+    e.currentTarget.style.setProperty("--y", "50%");
+  };
+
+  return (
+    <section className="relative overflow-hidden bg-black py-28">
+      {/* ===== Tech grid background (Audience) ===== */}
+      <div className="tech-grid pointer-events-none absolute inset-0 opacity-30" />
 
       <div className="container relative z-10">
         <SectionHeader
           label="Для кого"
           title="Кому подходит"
-          description="Работаю с бизнесом, которому важен конкретный, измеримый результат"
+          description="Подходит бизнесу, где важен измеримый результат"
         />
 
         <div className="mx-auto mt-16 grid max-w-6xl gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {segments.map((segment) => (
             <div
               key={segment.title}
+              onMouseMove={handleMove}
+              onTouchMove={handleMove}
+              onMouseLeave={resetGlow}
               className="
+                audience-card
+                animate-card
+                card-with-glow
+                card-edge-glow
                 group
                 relative
+                cursor-pointer
                 rounded-3xl
                 border border-white/10
                 bg-white/5
@@ -61,36 +81,28 @@ const Audience = () => {
                 transition-all
                 duration-300
                 hover:-translate-y-2
-                hover:border-primary/40
-                hover:shadow-[0_30px_90px_rgba(120,255,0,0.18)]
               "
             >
-              {/* Hover glow */}
-              <div className="pointer-events-none absolute inset-0 rounded-3xl opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                <div className="absolute inset-0 rounded-3xl bg-primary/5 blur-xl" />
+              {/* Interactive glow */}
+              <div className="glow-layer" />
+
+              <div className="relative z-10">
+                <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-xl bg-primary/20 shadow-[0_10px_40px_rgba(120,255,0,0.25)]">
+                  <segment.icon className="h-7 w-7 text-primary" />
+                </div>
+
+                <h3 className="mb-2 text-xl font-semibold text-white">
+                  {segment.title}
+                </h3>
+
+                <p className="text-white/70 leading-relaxed">
+                  {segment.description}
+                </p>
               </div>
-
-              {/* Icon */}
-              <div className="relative z-10 mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/20 shadow-[0_0_0_1px_rgba(120,255,0,0.25),0_14px_50px_rgba(120,255,0,0.25)]">
-                <segment.icon className="h-8 w-8 text-primary" />
-              </div>
-
-              {/* Title */}
-              <h3 className="relative z-10 mb-3 text-center text-xl font-semibold text-white">
-                {segment.title}
-              </h3>
-
-              {/* Description */}
-              <p className="relative z-10 text-center text-base leading-relaxed text-white/70">
-                {segment.description}
-              </p>
             </div>
           ))}
         </div>
       </div>
-
-      {/* Bottom fade — подготовка к следующему блоку */}
-      <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-b from-transparent to-black" />
     </section>
   );
 };
