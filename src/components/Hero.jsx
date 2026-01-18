@@ -115,21 +115,6 @@ const Hero = () => {
             Бесплатно · Без обязательств · Ответ в течение 24 часов ·
             <span className="text-white"> Без продаж</span>
           </p>
-
-          {/* ===== Hero image ===== */}
-          <div className="relative mt-20 flex justify-center">
-            <img
-              src="/images/hero-ai.png"
-              alt="AI automation dashboard"
-              className="
-                w-full
-                max-w-5xl
-                rounded-3xl
-                opacity-85
-                shadow-[0_50px_140px_rgba(0,0,0,0.85)]
-              "
-            />
-          </div>
         </div>
       </div>
     </section>
