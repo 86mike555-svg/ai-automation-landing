@@ -93,7 +93,6 @@ const Services = () => {
             <div
               key={service.title}
               onMouseMove={handleMove}
-              onTouchMove={handleMove}
               onMouseLeave={resetGlow}
               className="
                 service-card

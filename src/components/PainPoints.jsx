@@ -91,7 +91,6 @@ const PainPoints = () => {
             <div
               key={index}
               onMouseMove={handleMove}
-              onTouchMove={handleMove}
               onMouseLeave={resetGlow}
               className="
                 pain-card

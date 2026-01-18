@@ -63,7 +63,6 @@ const Audience = () => {
             <div
               key={segment.title}
               onMouseMove={handleMove}
-              onTouchMove={handleMove}
               onMouseLeave={resetGlow}
               className="
                 audience-card

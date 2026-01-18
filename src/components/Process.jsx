@@ -79,7 +79,6 @@ const Process = () => {
             <div
               key={index}
               onMouseMove={handleMove}
-              onTouchMove={handleMove}
               onMouseLeave={resetGlow}
               className="
                 process-card

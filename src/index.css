@@ -121,3 +121,22 @@ body {
     rgba(0,0,0,0) 70%
   );
 }
+/* ===== Mobile performance fix ===== */
+@media (max-width: 768px) {
+  .glow-layer {
+    display: none !important;
+  }
+
+  .card-edge-glow::before,
+  .card-edge-glow::after {
+    display: none !important;
+  }
+
+  /* убираем hover-анимации */
+  .service-card,
+  .pain-card,
+  .process-card,
+  .audience-card {
+    transform: none !important;
+  }
+}
